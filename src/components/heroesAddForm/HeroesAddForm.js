@@ -39,7 +39,7 @@ const HeroesAddForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -78,6 +78,9 @@ const HeroesAddForm = () => {
           {...register("name")}
         />
       </div>
+      {errors.name && (
+        <div className="invalid-feedback d-block">{errors.name.message}</div>
+      )}
 
       <div className="mb-3">
         <label htmlFor="text" className="form-label fs-4">
@@ -92,7 +95,12 @@ const HeroesAddForm = () => {
           {...register("description")}
         />
       </div>
-      {errors.description && <div>{errors.description.message}</div>}
+      {errors.description && (
+        <div className="invalid-feedback d-block">
+          {errors.description.message}
+        </div>
+      )}
+
       <div className="mb-3">
         <label htmlFor="element" className="form-label">
           Выбрать элемент героя
@@ -110,9 +118,12 @@ const HeroesAddForm = () => {
           <option value="earth">Земля</option>
         </select>
       </div>
+      {errors.element && (
+        <div className="invalid-feedback d-block">{errors.element.message}</div>
+      )}
 
-      <button type="submit" className="btn btn-primary">
-        Создать
+      <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+        {isSubmitting ? "Загрузка.." : "Создать"}
       </button>
     </form>
   );
