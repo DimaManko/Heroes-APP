@@ -14,16 +14,31 @@
     },
     {
       "name": "Дмитрий",
-      "description": "jjjjjjj",
-      "element": "fire",
-      "id": "1970c414-7782-4541-b9c9-f58fc62323f8"
+      "description": "sdfsdfdsfsdf",
+      "element": "water",
+      "id": "836ae09b-f3f5-470f-8e3a-8ec406e943d0"
     }
   ],
   "filters": [
-    "all",
-    "fire",
-    "water",
-    "wind",
-    "earth"
+    {
+      "name": "all",
+      "label": "Все"
+    },
+    {
+      "name": "fire",
+      "label": "Огонь"
+    },
+    {
+      "name": "water",
+      "label": "Вода"
+    },
+    {
+      "name": "wind",
+      "label": "Ветер"
+    },
+    {
+      "name": "earth",
+      "label": "Земля"
+    }
   ]
 }

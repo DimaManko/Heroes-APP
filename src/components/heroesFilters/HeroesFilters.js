@@ -3,8 +3,10 @@ import {
   filtersFetching,
   filtersFetched,
   filtersFetchingError,
+  activeFilterChange,
 } from "../../actions";
 import { useHttp } from "../../hooks/http.hook";
+import classNames from "classnames";
 
 import Spinner from "../spinner/Spinner";
 import { useEffect } from "react";
@@ -17,7 +19,9 @@ import { useEffect } from "react";
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
 const HeroesFilters = () => {
-  const { filters, filtersLoadingStatus } = useSelector((state) => state);
+  const { filters, filtersLoadingStatus, activeFilter } = useSelector(
+    (state) => state,
+  );
   const dispatch = useDispatch();
   const { request } = useHttp();
 
@@ -28,16 +32,37 @@ const HeroesFilters = () => {
       .catch(() => dispatch(filtersFetchingError()));
   }, []);
 
+  if (filtersLoadingStatus === "loading") {
+    return <Spinner />;
+  } else if (filtersLoadingStatus === "error") {
+    return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
+  }
+
   return (
     <div className="card shadow-lg mt-4">
       <div className="card-body">
         <p className="card-text">Отфильтруйте героев по элементам</p>
         <div className="btn-group">
-          <button className="btn btn-outline-dark active">Все</button>
-          <button className="btn btn-danger">Огонь</button>
-          <button className="btn btn-primary">Вода</button>
-          <button className="btn btn-success">Ветер</button>
-          <button className="btn btn-secondary">Земля</button>
+          {filters.map(({ name, label }) => {
+            const btnClass = classNames({
+              btn: true,
+              "btn-outline-dark": name === "all",
+              "btn-danger": name === "fire",
+              "btn-primary": name === "water",
+              "btn-success": name === "wind",
+              "btn-secondary": name === "earth",
+              active: activeFilter === name,
+            });
+            return (
+              <button
+                key={name}
+                className={btnClass}
+                onClick={() => dispatch(activeFilterChange(name))}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,8 +1,11 @@
+import { activeFilter } from "../actions";
+
 const initialState = {
   heroes: [],
   heroesLoadingStatus: "idle",
   filters: [],
   filtersLoadingStatus: "idle",
+  activeFilter: "all",
 };
 
 const reducer = (state = initialState, action) => {
@@ -48,6 +51,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         filtersLoadingStatus: "error",
+      };
+    case "ACTIVE_FILTER":
+      return {
+        ...state,
+        activeFilter: action.payload,
       };
     default:
       return state;
