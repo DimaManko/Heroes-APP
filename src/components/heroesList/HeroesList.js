@@ -2,6 +2,8 @@ import { useHttp } from "../../hooks/http.hook";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { motion, AnimatePresence } from "motion/react";
+
 import {
   heroesFetching,
   heroesFetched,
@@ -57,13 +59,27 @@ const HeroesList = () => {
       return <h5 className="text-center mt-5">Героев пока нет</h5>;
     }
 
-    return filteredHeroes.map((hero) => {
-      return <HeroesListItem key={hero.id} hero={hero} deleteHero={onDelete} />;
-    });
+    return (
+      <AnimatePresence>
+        {filteredHeroes.map((hero) => {
+          return (
+            <HeroesListItem key={hero.id} hero={hero} deleteHero={onDelete} />
+          );
+        })}
+      </AnimatePresence>
+    );
   };
 
   const elements = renderHeroesList(heroes);
-  return <ul>{elements}</ul>;
+  return (
+    <motion.ul
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {elements}
+    </motion.ul>
+  );
 };
 
 export default HeroesList;

@@ -1,3 +1,5 @@
+import { motion } from "motion/react";
+
 const HeroesListItem = ({ hero, deleteHero }) => {
   const { id, name, description, element } = hero;
   let elementClassName;
@@ -20,7 +22,12 @@ const HeroesListItem = ({ hero, deleteHero }) => {
   }
 
   return (
-    <li
+    <motion.li
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+      transition={{ duration: 0.2 }}
+      layout
       className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}
     >
       <img
@@ -41,7 +48,7 @@ const HeroesListItem = ({ hero, deleteHero }) => {
           aria-label="Close"
         ></button>
       </span>
-    </li>
+    </motion.li>
   );
 };
 
