@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useHttp } from "../../hooks/http.hook";
 import { addHero } from "../../actions";
@@ -34,6 +34,7 @@ const schema = z.object({
 const HeroesAddForm = () => {
   const { request } = useHttp();
   const dispatch = useDispatch();
+  const { filters } = useSelector((state) => state);
 
   const {
     register,
@@ -60,6 +61,21 @@ const HeroesAddForm = () => {
       console.log("Не удалось создать персонажа");
     }
   };
+
+  const viewOption = (filters) => {
+    return filters.map(({ name, label }) => {
+      if (name === "all") return null;
+
+      return (
+        <option key={name} value={name}>
+          {label}
+        </option>
+      );
+    });
+  };
+
+  const option = viewOption(filters);
+
   return (
     <form
       className="border p-4 shadow-lg rounded"
@@ -112,10 +128,7 @@ const HeroesAddForm = () => {
           {...register("element")}
         >
           <option value="">Я владею элементом...</option>
-          <option value="fire">Огонь</option>
-          <option value="water">Вода</option>
-          <option value="wind">Ветер</option>
-          <option value="earth">Земля</option>
+          {option}
         </select>
       </div>
       {errors.element && (
