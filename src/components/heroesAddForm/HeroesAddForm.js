@@ -34,7 +34,7 @@ const schema = z.object({
 const HeroesAddForm = () => {
   const { request } = useHttp();
   const dispatch = useDispatch();
-  const { filters } = useSelector((state) => state);
+  const { filters } = useSelector((state) => state.filters);
 
   const {
     register,
@@ -63,6 +63,10 @@ const HeroesAddForm = () => {
   };
 
   const viewOption = (filters) => {
+    if (!filters || filters.length === 0) {
+      return <option value="">Фильтры загружаются...</option>;
+    }
+
     return filters.map(({ name, label }) => {
       if (name === "all") return null;
 

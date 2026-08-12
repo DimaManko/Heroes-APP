@@ -1,6 +1,7 @@
 import { useHttp } from "../../hooks/http.hook";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "reselect";
 
 import { motion, AnimatePresence } from "motion/react";
 
@@ -13,17 +14,28 @@ import {
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
 
+const filteredHeroesSelector = createSelector(
+  (state) => state.filters.activeFilter,
+  (state) => state.heroes.heroes,
+  (filter, heroes) => {
+    return filter === "all"
+      ? heroes
+      : heroes.filter((hero) => hero.element === filter);
+  },
+);
+
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния
 // Усложненная задача:
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-  const { heroes, heroesLoadingStatus, activeFilter } = useSelector(
-    (state) => state,
-  );
+  const { heroesLoadingStatus } = useSelector((state) => state.heroes);
+  // const { activeFilter } = useSelector((state) => state.filters);
   const dispatch = useDispatch();
   const { request } = useHttp();
+
+  const filteredHeroes = useSelector(filteredHeroesSelector);
 
   useEffect(() => {
     dispatch(heroesFetching());
@@ -50,10 +62,10 @@ const HeroesList = () => {
   }
 
   const renderHeroesList = (arr) => {
-    const filteredHeroes =
-      activeFilter === "all"
-        ? arr
-        : arr.filter((hero) => hero.element === activeFilter);
+    // const filteredHeroes =
+    //   activeFilter === "all"
+    //     ? arr
+    //     : arr.filter((hero) => hero.element === activeFilter);
 
     if (filteredHeroes.length === 0) {
       return <h5 className="text-center mt-5">Героев пока нет</h5>;
@@ -70,7 +82,7 @@ const HeroesList = () => {
     );
   };
 
-  const elements = renderHeroesList(heroes);
+  const elements = renderHeroesList(filteredHeroes);
   return (
     <motion.ul
       initial={{ opacity: 0, y: 20 }}
