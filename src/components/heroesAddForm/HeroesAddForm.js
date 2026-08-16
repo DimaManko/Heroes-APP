@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useHttp } from "../../hooks/http.hook";
-import { addHero } from "../../actions";
+import { heroesAddHero } from "../heroesList/heroesSlice";
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -55,7 +55,7 @@ const HeroesAddForm = () => {
         "POST",
         JSON.stringify(newHero),
       );
-      dispatch(addHero(newHero));
+      dispatch(heroesAddHero(newHero));
       reset();
     } catch (e) {
       console.log("Не удалось создать персонажа");

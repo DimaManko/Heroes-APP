@@ -5,7 +5,8 @@ import { createSelector } from "reselect";
 
 import { motion, AnimatePresence } from "motion/react";
 
-import { fetchHeroes, deleteHero } from "../../actions";
+import { fetchHeroes } from "../../actions";
+import { heroesDeleteHero } from "./heroesSlice";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
 
@@ -40,7 +41,7 @@ const HeroesList = () => {
   const onDelete = useCallback(
     (id) => {
       request(`http://localhost:3001/heroes/${id}`, "DELETE")
-        .then(() => dispatch(deleteHero(id)))
+        .then(() => dispatch(heroesDeleteHero(id)))
         .catch(() => console.log("Не удалось удалить персонажа"));
     },
     [request, dispatch],
@@ -53,11 +54,6 @@ const HeroesList = () => {
   }
 
   const renderHeroesList = (arr) => {
-    // const filteredHeroes =
-    //   activeFilter === "all"
-    //     ? arr
-    //     : arr.filter((hero) => hero.element === activeFilter);
-
     if (filteredHeroes.length === 0) {
       return <h5 className="text-center mt-5">Героев пока нет</h5>;
     }
