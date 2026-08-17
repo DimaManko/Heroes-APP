@@ -19,10 +19,10 @@ const heroesSlice = createSlice({
     heroesFetchingError: (state) => {
       state.heroesLoadingStatus = "error";
     },
-    heroesDeleteHero: (state, action) => {
+    deleteHero: (state, action) => {
       state.heroes = state.heroes.filter((hero) => hero.id !== action.payload);
     },
-    heroesAddHero: (state, action) => {
+    addHero: (state, action) => {
       state.heroes.push(action.payload);
     },
   },
@@ -35,6 +35,6 @@ export const {
   heroesFetching,
   heroesFetched,
   heroesFetchingError,
-  heroesDeleteHero,
-  heroesAddHero,
+  deleteHero,
+  addHero,
 } = actions;
