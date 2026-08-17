@@ -5,8 +5,7 @@ import { createSelector } from "reselect";
 
 import { motion, AnimatePresence } from "motion/react";
 
-import { fetchHeroes } from "../../actions";
-import { deleteHero } from "./heroesSlice";
+import { deleteHero, fetchHeroes } from "./heroesSlice";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
 
@@ -34,7 +33,7 @@ const HeroesList = () => {
   const filteredHeroes = useSelector(filteredHeroesSelector);
 
   useEffect(() => {
-    dispatch(fetchHeroes(request));
+    dispatch(fetchHeroes());
     // eslint-disable-next-line
   }, []);
 

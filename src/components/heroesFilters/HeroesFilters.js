@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFilter } from "../../actions";
-import { activeFilterChange } from "./filtersSlice";
+import { activeFilterChange, fetchFilter } from "./filtersSlice";
 import { useHttp } from "../../hooks/http.hook";
 import classNames from "classnames";
 
