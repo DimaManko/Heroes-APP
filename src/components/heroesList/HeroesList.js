@@ -1,23 +1,12 @@
 import { useHttp } from "../../hooks/http.hook";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSelector } from "reselect";
 
 import { motion, AnimatePresence } from "motion/react";
 
-import { deleteHero, fetchHeroes } from "./heroesSlice";
+import { deleteHero, fetchHeroes, filteredHeroesSelector } from "./heroesSlice";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
-
-const filteredHeroesSelector = createSelector(
-  (state) => state.filters.activeFilter,
-  (state) => state.heroes.heroes,
-  (filter, heroes) => {
-    return filter === "all"
-      ? heroes
-      : heroes.filter((hero) => hero.element === filter);
-  },
-);
 
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния

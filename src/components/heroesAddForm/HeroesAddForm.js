@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHttp } from "../../hooks/http.hook";
 import { addHero } from "../heroesList/heroesSlice";
 
+import { selectAllFilters } from "../heroesFilters/filtersSlice";
+
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
 // в общее состояние и отображаться в списке + фильтроваться
@@ -34,7 +36,8 @@ const schema = z.object({
 const HeroesAddForm = () => {
   const { request } = useHttp();
   const dispatch = useDispatch();
-  const { filters } = useSelector((state) => state.filters);
+  // const { filters } = useSelector((state) => state.filters);
+  const filters = useSelector(selectAllFilters);
 
   const {
     register,

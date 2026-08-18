@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { activeFilterChange, fetchFilter } from "./filtersSlice";
+import {
+  activeFilterChange,
+  fetchFilter,
+  selectAllFilters,
+} from "./filtersSlice";
 import { useHttp } from "../../hooks/http.hook";
 import classNames from "classnames";
 
@@ -14,9 +18,10 @@ import { useEffect } from "react";
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
 const HeroesFilters = () => {
-  const { filters, filtersLoadingStatus, activeFilter } = useSelector(
+  const { filtersLoadingStatus, activeFilter } = useSelector(
     (state) => state.filters,
   );
+  const filters = useSelector(selectAllFilters);
   const dispatch = useDispatch();
   const { request } = useHttp();
 
