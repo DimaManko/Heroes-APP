@@ -1,10 +1,12 @@
 import { useHttp } from "../../hooks/http.hook";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { motion, AnimatePresence } from "motion/react";
 
-import { deleteHero, fetchHeroes, filteredHeroesSelector } from "./heroesSlice";
+import { deleteHero, fetchHeroes } from "./heroesSlice";
+import { useGetHeroesQuery } from "../../api/apiSlice";
+
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
 
@@ -14,12 +16,19 @@ import Spinner from "../spinner/Spinner";
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-  const { heroesLoadingStatus } = useSelector((state) => state.heroes);
-  // const { activeFilter } = useSelector((state) => state.filters);
+  const { data: heroes = [], isLoading, isError } = useGetHeroesQuery();
+
+  const activeFilter = useSelector((state) => state.filters.activeFilter);
+
+  const filteredHeroes = useMemo(() => {
+    const filteredHeroes = heroes.slice();
+    return activeFilter === "all"
+      ? filteredHeroes
+      : filteredHeroes.filter((hero) => hero.element === activeFilter);
+  }, [heroes, activeFilter]);
+
   const dispatch = useDispatch();
   const { request } = useHttp();
-
-  const filteredHeroes = useSelector(filteredHeroesSelector);
 
   useEffect(() => {
     dispatch(fetchHeroes());
@@ -35,9 +44,9 @@ const HeroesList = () => {
     [request, dispatch],
   );
 
-  if (heroesLoadingStatus === "loading") {
+  if (isLoading) {
     return <Spinner />;
-  } else if (heroesLoadingStatus === "error") {
+  } else if (isError) {
     return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
   }
 
