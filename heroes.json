@@ -7,12 +7,6 @@
       "element": "fire"
     },
     {
-      "name": "dfsdfsdfs",
-      "description": "sdfsdfsdf",
-      "element": "fire",
-      "id": "2f36d179-427f-44a5-9b24-2ecd955191ed"
-    },
-    {
       "name": "fsdfsdfsd",
       "description": "dsfsdfsd",
       "element": "water",
@@ -35,6 +29,12 @@
       "description": "wqewqeqw",
       "element": "water",
       "id": "1e01ffbb-2c4d-4409-9d54-d6f9d6cfa354"
+    },
+    {
+      "name": "фвыфвфы",
+      "description": "выфвфывфы",
+      "element": "fire",
+      "id": "64a7383e-e640-4b8d-bef7-cf7701e0af7f"
     }
   ],
   "filters": [
